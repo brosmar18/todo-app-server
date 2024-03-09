@@ -1,6 +1,6 @@
 "use strict";
 
-const logger = require("../Utils/Logger");
+const logger = require("../Utils/logger");
 
 module.exports = (req, res, next) => {
   const errorDetails = {
