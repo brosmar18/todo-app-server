@@ -5,13 +5,19 @@ const cors = require("cors");
 const logger = require("./Utils/logger");
 const PORT = process.env.PORT || 5002;
 
+// Routes
+const authRouter = require("./routes/auth");
+
 // Error Handlers
 const notFound = require("./handlers/404");
 const errorHandler = require("./handlers/500");
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+
+app.use(authRouter);
 
 app.get("/", (req, res, next) => {
   res.status(200).send("Hello World!");
