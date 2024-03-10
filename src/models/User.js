@@ -1,26 +1,26 @@
 "use strict";
 
-module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define(
-    "User",
-    {
-      username: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-      },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-    },
-    {
-      hooks: {
-        beforeCreate: (user) => {
-          console.log("Creating user:", JSON.stringify(user, null, 2));
-        },
-      },
-    }
-  );
-  return User;
-};
+const mongoose = require("mongoose");
+
+const userSchema = new mongoose.Schema({
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
+    type: String,
+    required: true,
+  },
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+}, { timestamps: true });
+
+module.exports = mongoose.model("User", userSchema);

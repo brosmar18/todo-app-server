@@ -10,9 +10,14 @@ const router = express.Router();
 
 router.post("/signup", async (req, res, next) => {
   try {
-    const { username, password } = req.body;
-    const encryptedPassword = await bcrypt.hash(password, 5);
+    const { firstName, lastName, occupation, email, username, password } =
+      req.body;
+    const encryptedPassword = await bcrypt.hash(password, 10); 
     let newUser = await userModel.create({
+      firstName,
+      lastName,
+      occupation,
+      email, 
       username,
       password: encryptedPassword,
     });

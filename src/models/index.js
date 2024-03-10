@@ -1,17 +1,19 @@
 "use strict";
 
-const { Sequelize, DataTypes } = require("sequelize");
-const user = require("./User");
-require("dotenv").config();
+const mongoose = require("mongoose");
+const logger = require("../Utils/logger");
 
-const DATABASE_URL =
-  process.env.NODE_ENV === "test" ? "sqlite::memory" : process.env.DATABASE_URL;
-
-const sequelizeDatabase = new Sequelize(DATABASE_URL);
-
-const userModel = user(sequelizeDatabase, DataTypes);
-
-module.exports = {
-  sequelizeDatabase,
-  userModel, 
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URL);
+    logger.info("MongoDB connected successfully.");
+  } catch (error) {
+    logger.error("MongoDB connection failed:", error.message);
+    if (!process.env.MONGODB_URL) {
+      logger.error("Ensure MONGODB_URL is correctly set in your .env file.");
+    }
+    process.exit(1);
+  }
 };
+
+module.exports = connectDB;
