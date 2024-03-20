@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 5002;
 
 // Routes
 const authRoutes = require("./routes/auth");
+const taskRoutes = require("./routes/task");
 
 // Error Handlers
 const notFound = require("./handlers/404");
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 app.use(authRoutes);
+app.use(taskRoutes);
 
 app.get("/", verifyToken, (req, res, next) => {
   res.status(200).send("Hello World!");
