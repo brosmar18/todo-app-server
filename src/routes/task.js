@@ -4,18 +4,18 @@ const taskController = require("../controllers/taskController");
 const { verifyToken } = require("../middleware/verifyToken");
 
 // Create a new task
-router.post("/", verifyToken, taskController.createTask);
+router.post("/api/task", verifyToken, taskController.createTask);
 
 // Get all tasks
-router.get("/", verifyToken, taskController.getAllTasks);
+router.get("/api/tasks", verifyToken, taskController.getAllTasks);
 
 // Get a single task by ID
-router.get("/:id", verifyToken, taskController.getTaskById);
+router.get("/api/task/:id", verifyToken, taskController.getTaskById);
 
 // Update a task
-router.put("/:id", verifyToken, taskController.updateTask);
+router.put("/api/task/:id", verifyToken, taskController.updateTask);
 
 // Delete a task
-router.delete("/:id", verifyToken, taskController.deleteTask);
+router.delete("/api/task/:id", verifyToken, taskController.deleteTask);
 
 module.exports = router;
