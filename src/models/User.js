@@ -36,6 +36,23 @@ const userSchema = new mongoose.Schema(
         "Administrator",
       ],
     },
+    capabilities: {
+      type: [String],
+      required: true,
+      default: function () {
+        switch (this.role) {
+          case "Administrator":
+            return ["read", "create", "update", "delete"];
+          case "Team Lead":
+            return ["read", "create", "update"];
+          case "Software Developer":
+          case "Graphic Designer":
+            return ["read"];
+          default:
+            return [];
+        }
+      },
+    },
   },
   { timestamps: true }
 );
