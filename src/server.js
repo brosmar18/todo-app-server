@@ -2,7 +2,7 @@
 
 const express = require("express");
 const cors = require("cors");
-const logger = require("./Utils/logger");
+const logger = require("./utils/logger");
 const PORT = process.env.PORT || 5002;
 
 // Routes
