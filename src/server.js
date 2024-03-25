@@ -2,7 +2,6 @@
 
 const express = require("express");
 const cors = require("cors");
-const logger = require("./utils/logger");
 const PORT = process.env.PORT || 5002;
 
 // Routes
@@ -35,7 +34,7 @@ app.use("*", notFound);
 app.use(errorHandler);
 
 const start = () => {
-  app.listen(PORT, () => logger.info(`Server is running on PORT: ${PORT}`));
+  app.listen(PORT, () => console.log(`Server is running on PORT: ${PORT}`));
 };
 
 module.exports = {

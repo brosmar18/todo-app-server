@@ -1,5 +1,4 @@
 const User = require("../models/User");
-const logger = require("../utils/logger");
 
 // Get all users
 const getAllUsers = async (req, res, next) => {
@@ -7,7 +6,7 @@ const getAllUsers = async (req, res, next) => {
     const users = await User.find();
     res.status(200).json(users);
   } catch (e) {
-    logger.error(`Error getting all users: ${e.message}`);
+    console.error(`Error getting all users: ${e.message}`);
   }
 };
 
@@ -20,7 +19,7 @@ const getUserById = async (req, res, next) => {
     }
     res.status(200).json(user);
   } catch (e) {
-    logger.error(`Error getting user by ID: ${e.message}`);
+    console.error(`Error getting user by ID: ${e.message}`);
     next(e);
   }
 };
@@ -36,7 +35,7 @@ const updateUser = async (req, res, next) => {
     }
     res.status(200).json(updatedUser);
   } catch (e) {
-    logger.error(`Error updating user: ${e.message}`);
+    console.error(`Error updating user: ${e.message}`);
     next(e);
   }
 };
@@ -50,7 +49,7 @@ const deleteUser = async (req, res, next) => {
     }
     res.status(200).json({ message: "User deleted successfully" });
   } catch (e) {
-    logger.error(`Error deleting user: ${e.message}`);
+    console.error(`Error deleting user: ${e.message}`);
     next(e);
   }
 };

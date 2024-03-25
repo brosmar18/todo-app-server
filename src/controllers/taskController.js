@@ -1,5 +1,4 @@
 const Task = require("../models/Task");
-const logger = require("../utils/logger");
 
 const createTask = async (req, res, next) => {
   try {
@@ -8,7 +7,7 @@ const createTask = async (req, res, next) => {
 
     // Check if the user has the 'create' capability
     if (!req.user.capabilities.includes("create")) {
-      logger.warn(
+      console.log(
         `User ${req.user._id} attempted to create a task without permission`
       );
       return res.status(403).json({
@@ -25,10 +24,10 @@ const createTask = async (req, res, next) => {
     });
 
     const savedTask = await task.save();
-    logger.info(`Task ${savedTask._id} created by user ${req.user._id}`);
+    console.log(`Task ${savedTask._id} created by user ${req.user._id}`);
     res.status(201).json(savedTask);
   } catch (error) {
-    logger.error(`Error creating task: ${error.message}`);
+    console.error(`Error creating task: ${error.message}`);
     next(error);
   }
 };
@@ -49,10 +48,10 @@ const getAllTasks = async (req, res, next) => {
         "firstName lastName email"
       );
     }
-    logger.info(`User ${req.user._id} retrieved all tasks`);
+    console.log(`User ${req.user._id} retrieved all tasks`);
     res.status(200).json(tasks);
   } catch (error) {
-    logger.error(`Error retrieving tasks: ${error.message}`);
+    console.error(`Error retrieving tasks: ${error.message}`);
     next(error);
   }
 };
@@ -75,15 +74,15 @@ const getTaskById = async (req, res, next) => {
       }).populate("createdBy assignee", "firstName lastName email");
     }
     if (!task) {
-      logger.warn(
+      console.log(
         `User ${req.user._id} attempted to retrieve non-existent task ${req.params.id}`
       );
       return res.status(404).json({ error: "Task not found" });
     }
-    logger.info(`User ${req.user._id} retrieved task ${task._id}`);
+    console.log(`User ${req.user._id} retrieved task ${task._id}`);
     res.status(200).json(task);
   } catch (error) {
-    logger.error(`Error retrieving task: ${error.message}`);
+    console.error(`Error retrieving task: ${error.message}`);
     next(error);
   }
 };
@@ -95,7 +94,7 @@ const updateTask = async (req, res, next) => {
 
     // Check if the user has the 'update' capability
     if (!req.user.capabilities.includes("update")) {
-      logger.warn(
+      console.log(
         `User ${req.user._id} attempted to update a task without permission`
       );
       return res.status(403).json({
@@ -110,16 +109,16 @@ const updateTask = async (req, res, next) => {
     ).populate("createdBy assignee", "firstName lastName email");
 
     if (!updatedTask) {
-      logger.warn(
+      console.log(
         `User ${req.user._id} attempted to update non-existent task ${req.params.id}`
       );
       return res.status(404).json({ error: "Task not found" });
     }
 
-    logger.info(`User ${req.user._id} updated task ${updatedTask._id}`);
+    console.log(`User ${req.user._id} updated task ${updatedTask._id}`);
     res.status(200).json(updatedTask);
   } catch (error) {
-    logger.error(`Error updating task: ${error.message}`);
+    console.error(`Error updating task: ${error.message}`);
     next(error);
   }
 };
@@ -129,7 +128,7 @@ const deleteTask = async (req, res, next) => {
   try {
     // Check if the user has the 'delete' capability
     if (!req.user.capabilities.includes("delete")) {
-      logger.warn(
+      console.log(
         `User ${req.user._id} attempted to delete a task without permission`
       );
       return res.status(403).json({
@@ -139,15 +138,15 @@ const deleteTask = async (req, res, next) => {
 
     const deletedTask = await Task.findByIdAndDelete(req.params.id);
     if (!deletedTask) {
-      logger.warn(
+      console.log(
         `User ${req.user._id} attempted to delete non-existent task ${req.params.id}`
       );
       return res.status(404).json({ error: "Task not found" });
     }
-    logger.info(`User ${req.user._id} deleted task ${deletedTask._id}`);
+    console.log(`User ${req.user._id} deleted task ${deletedTask._id}`);
     res.status(200).json({ message: "Task deleted successfully" });
   } catch (error) {
-    logger.error(`Error deleting task: ${error.message}`);
+    console.error(`Error deleting task: ${error.message}`);
     next(error);
   }
 };
