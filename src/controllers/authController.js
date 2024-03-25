@@ -1,7 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-const logger = require("../Utils/logger");
 
 // Register logic
 const register = async (req, res, next) => {
@@ -25,10 +24,10 @@ const register = async (req, res, next) => {
     });
 
     const savedUser = await newUser.save();
-    logger.info(`New user registered: ${email}`);
+    console.log(`New user registered: ${email}`);
     res.status(201).json(savedUser);
   } catch (e) {
-    logger.error(`Registration error: ${e.message}`);
+    console.error(`Registration error: ${e.message}`);
     next(e);
   }
 };
@@ -39,22 +38,22 @@ const login = async (req, res, next) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email: email });
     if (!user) {
-      logger.warn(`Login attempt for non-existent user: ${email}`);
+      console.log(`Login attempt for non-existent user: ${email}`);
       return res.status(400).json({ message: "User does not exist." });
     }
 
     const userMatch = await bcrypt.compare(password, user.password);
     if (!userMatch) {
-      logger.warn(`Invalid login attempt for user: ${email}`);
+      console.log(`Invalid login attempt for user: ${email}`);
       return res.status(400).json({ message: "Invalid Credentials." });
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-    logger.info(`User logged in: ${email}`);
+    console.log(`User logged in: ${email}`);
     delete user.password;
     res.status(200).json({ token, user });
   } catch (e) {
-    logger.error(`Registration error: ${e.message}`);
+    console.error(`Registration error: ${e.message}`);
     next(e);
   }
 };
