@@ -1,10 +1,9 @@
 const Task = require("../models/Task");
 const logger = require("../Utils/logger");
 
-// Create a new Task
 const createTask = async (req, res, next) => {
   try {
-    const { taskName, description, assigneeId, difficulty } = req.body;
+    const { taskName, description, assignee, difficulty } = req.body;
     const createdBy = req.user._id;
 
     // Check if the user has the 'create' capability
@@ -21,7 +20,7 @@ const createTask = async (req, res, next) => {
       taskName,
       description,
       createdBy,
-      assignee: assigneeId,
+      assignee,
       difficulty,
     });
 
@@ -33,7 +32,6 @@ const createTask = async (req, res, next) => {
     next(error);
   }
 };
-
 // Get all tasks
 const getAllTasks = async (req, res, next) => {
   try {

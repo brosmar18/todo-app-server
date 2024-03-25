@@ -33,4 +33,14 @@ const taskSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+taskSchema.pre("find", function (next) {
+  this.populate("assignee", "firstName lastName");
+  next();
+});
+
+taskSchema.pre("findOne", function (next) {
+  this.populate("assignee", "firstName lastName");
+  next();
+});
+
 module.exports = mongoose.model("Task", taskSchema);

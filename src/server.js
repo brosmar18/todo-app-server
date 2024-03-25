@@ -22,7 +22,7 @@ app.use(cors());
 
 app.use(authRoutes);
 app.use(taskRoutes);
-app.use(userRoutes);
+app.use("/api", userRoutes);
 
 app.get("/", verifyToken, (req, res, next) => {
   res.status(200).send("Hello World!");
