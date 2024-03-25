@@ -1,9 +1,7 @@
 "use strict";
 
-const logger = require("../utils/logger");
-
 module.exports = (err, req, res, next) => {
-  logger.error(
+  console.error(
     `500 - Server Error - ${req.method} ${req.path} - Error message: ${err.message}`,
     {
       error: err,
