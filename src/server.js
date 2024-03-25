@@ -3,7 +3,6 @@
 const express = require("express");
 const cors = require("cors");
 const logger = require("./Utils/logger");
-const { verifyToken } = require("./middleware/verifyToken");
 const PORT = process.env.PORT || 5002;
 
 // Routes
@@ -24,7 +23,7 @@ app.use(authRoutes);
 app.use(taskRoutes);
 app.use("/api", userRoutes);
 
-app.get("/", verifyToken, (req, res, next) => {
+app.get("/", (req, res, next) => {
   res.status(200).send("Hello World!");
 });
 
